@@ -29,10 +29,9 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = $this->productRepository->getProduct($id);
-        $title = 'Product Detail';
         $intent = auth()->user()->createSetupIntent();
         $user = Auth::user();
-        return view('product.view', compact('title', 'product', 'intent', 'user'));
+        return view('product.view', compact('product', 'intent', 'user'));
     }
 
     public function charge(Request $request, $id)
@@ -41,9 +40,9 @@ class ProductController extends Controller
         $user = $request->user();
 
         $paymentMethod = $request->input('payment_method');
-        // dd($paymentMethod);
         $user->createOrGetStripeCustomer();
         $user->addPaymentMethod($paymentMethod);
+        $user->updateDefaultPaymentMethod($paymentMethod);
         $user->charge($product->price * 100, $paymentMethod);
 
         return redirect()->route('products.index')->with('success', 'Payment Successful!');

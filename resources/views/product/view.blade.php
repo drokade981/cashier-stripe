@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Product Detail')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -119,7 +119,7 @@
                 hiddenInput.setAttribute('value', setupIntent.payment_method);
                 form.appendChild(hiddenInput);
                 form.submit();
-                document.getElementById('payment-form').submit();
+                // document.getElementById('payment-form').submit();
             }
         });
     </script>
